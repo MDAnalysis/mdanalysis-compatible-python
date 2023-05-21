@@ -20,6 +20,12 @@ outputs:
   latest-python:
     description: Latest compatible Python version
     value: "${{ steps.get-latest-python.outputs.latest-python }}"
+  oldest-python:
+    description: Oldest compatible Python version
+    value: "${{ steps.get-older-python.outputs.oldest-python }}"
+  stable-python:
+    description: Stable Python version (N-1 latest)
+    value: "${{ steps.get-stable-python.outputs.stable-python }}"
 
 
 runs:
@@ -46,8 +52,8 @@ runs:
       shell: bash
       working-directory: "${{ github.action_path }}"
       run: |
-        chmod a+x ./get_latest_version.py
-        ver=$(./get_latest_version.py --matrix ${{ steps.get-python-versions.outputs.python-versions }}
+        chmod a+x ./get_version.py
+        ver=$(./get_version.py --matrix ${{ steps.get-python-versions.outputs.python-versions }} --index 0)
         echo $ver
         echo "latest-python=${ver}" >> $GITHUB_OUTPUT
 
@@ -56,4 +62,15 @@ runs:
       working-directory: "${{ github.action_path }}"
       shell: bash
       run: |
-        echo "pi"
+        ver=$(./get_version.py --matrix ${{ steps.get-python-versions.outputs.python-versions }} --index -1)
+        echo $ver
+        echo "oldest-python=${ver}" >> $GITHUB_OUTPUT
+
+    - name: get stable python
+      id: get-stable-python
+      working-directory: "${{ github.action_path }}"
+      shell: bash
+      run: |
+        ver=$(./get_version.py --matrix ${{ steps.get-python-versions.outputs.python-versions }} --index 1)
+        echo $ver
+        echo "stable-python=${ver}" >> $GITHUB_OUTPUT

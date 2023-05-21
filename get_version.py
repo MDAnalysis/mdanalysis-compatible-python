@@ -39,7 +39,10 @@ parser.add_argument(
     help="JSON string of versions to inspect",
 )
 parser.add_argument(
-    "--
+    "--index",
+    type=int,
+    help="Rank index along sorted version list (reverse order)",
+    default=0
 )
 
 
@@ -50,9 +53,9 @@ def inspect_versions(versions: str) -> str:
     for ver in versions_array:
         version_list.append((ver, int(ver.split('.')[0] + ver.split('.')[1])))
 
-    return sorted(version_list, key=lambda x: x[1], reverse=True)[0][0]
+    return sorted(version_list, key=lambda x: x[1], reverse=True)
 
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    print(inspect_versions(args.matrix))
+    print(inspect_versions(args.matrix)[args.index][0])
