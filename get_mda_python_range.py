@@ -112,6 +112,17 @@ def check_include_exclude_overlap(includes: str, excludes: str) -> None:
         raise ValueError(errmsg)
 
 
+def le_sort(versions: list[str]) -> list[str]:
+    """
+    Returns a sorted list of versions.
+    """
+    version_list = []
+    for ver in versions:
+        version_list.append((ver, int(ver.split('.')[0] + ver.split('.')[1])))
+
+    return [i[0] for i in sorted(version_list, key=lambda x: x[1])]
+
+
 if __name__ == "__main__":
     args = parser.parse_args()
     versions = get_release_versions(args.release)
@@ -121,4 +132,4 @@ if __name__ == "__main__":
         if args.exclude is not None:
             check_include_exclude_overlap(args.include, args.exclude)
         versions = include_versions(versions, args.include)
-    print(json.dumps(versions))
+    print(json.dumps(le_sort(versions)))
