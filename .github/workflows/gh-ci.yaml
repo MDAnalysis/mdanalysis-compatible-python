@@ -35,11 +35,13 @@ jobs:
         exclude: ['3.11',]
     
     - id: exclude-2-include-1
+      uses: ./
       with:
         exclude: ['3.11', '3.9']
         include: ['3.12',]
 
     - id: release-243
+      uses: ./
       with:
         release: "2.4.3"
     
