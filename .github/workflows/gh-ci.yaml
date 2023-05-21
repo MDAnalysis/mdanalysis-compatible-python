@@ -26,21 +26,25 @@ jobs:
       with:
         python-version: "3.11"
 
-    - id: default-matrix
+    - name: default
+      id: default-matrix
       uses: ./
 
-    - id: exclude-latest
+    - name: exclude latest
+      id: exclude-latest
       uses: ./
       with:
         exclude: '["3.11",]'
     
-    - id: exclude-2-include-1
+    - name: exclude 2 include 1
+      id: exclude-2-include-1
       uses: ./
       with:
         exclude: '["3.11", "3.9"]'
         include: '["3.12",]'
 
-    - id: release-243
+    - name: release 2.4.3
+      id: release-243
       uses: ./
       with:
         release: "2.4.3"
