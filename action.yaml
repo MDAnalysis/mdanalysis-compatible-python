@@ -22,7 +22,7 @@ outputs:
     value: "${{ steps.get-latest-python.outputs.latest-python }}"
   oldest-python:
     description: Oldest compatible Python version
-    value: "${{ steps.get-older-python.outputs.oldest-python }}"
+    value: "${{ steps.get-oldest-python.outputs.oldest-python }}"
   stable-python:
     description: Stable Python version (N-1 latest)
     value: "${{ steps.get-stable-python.outputs.stable-python }}"
