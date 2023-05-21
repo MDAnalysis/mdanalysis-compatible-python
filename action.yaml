@@ -1,0 +1,52 @@
+name: mdanalysis-compatible-pythons
+description: Get Python versions compatible with MDAnalysis
+inputs:
+  release:
+    decription: Which release version to get compatible Python versions for
+    required: true
+    default: develop
+  include:
+    description: Python versions to additionally include in the Python version list output
+    required: true
+    default: []
+  exclude:
+    description: Python versions to exclude from the Python version list output
+    required: true
+    default: []
+outputs:
+  python-versions:
+    description: List of compatible Python versions
+    value: "${{ steps.get-python-versions.outputs.python-versions }}"
+  latest-python:
+    description: Latest compatible Python version
+    value: "${{ steps.get-latest-python.outputs.latest-python }}"
+
+
+runs:
+  using: "composite"
+  steps:
+    - name: Current Python info
+      shell: bash
+      run: |
+        python --version
+        python3 --version
+
+    - name: get compatible python versions
+      id: get-python-versions
+      shell: bash
+      working-directory: "${{ github.action_path }}"
+      run: |
+        chmod a+x ./get_mda_python_range.py
+        pymatrix=$(./get_mda_python_range.py --release ${{ inputs.release }} --include ${{ inputs.include }} --exclude ${{ inputs.exclude }})
+        echo $pymatrix
+        echo "python-versions=${pymatrix}" >> $GITHUB_OUTPUT
+
+    - name: get latest python
+      id: get-latest-python
+      shell: bash
+      working-directory: "${{ github.action_path }}"
+      run: |
+        chmod a+x ./get_latest_version.py
+        ver=$(./get_latest_version.py --matrix ${{ steps.get-python-versions.outputs.python-versions }}
+        echo $ver
+        echo "latest-python=${ver}" >> $GITHUB_OUTPUT
