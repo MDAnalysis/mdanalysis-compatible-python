@@ -38,6 +38,9 @@ parser.add_argument(
     type=str,
     help="JSON string of versions to inspect",
 )
+parser.add_argument(
+    "--
+)
 
 
 def inspect_versions(versions: str) -> str:

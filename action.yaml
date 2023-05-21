@@ -8,11 +8,11 @@ inputs:
   include:
     description: Python versions to additionally include in the Python version list output
     required: false
-    default: ''
+    default: '[]'
   exclude:
     description: Python versions to exclude from the Python version list output
     required: false
-    default: ''
+    default: '[]'
 outputs:
   python-versions:
     description: List of compatible Python versions
