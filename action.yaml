@@ -43,7 +43,7 @@ runs:
       working-directory: "${{ github.action_path }}"
       run: |
         chmod a+x ./get_mda_python_range.py
-        pymatrix=$(./get_mda_python_range.py --release ${{ inputs.release }} --include ${{ inputs.include }} --exclude ${{ inputs.exclude }})
+        pymatrix=$(./get_mda_python_range.py --release ${{ inputs.release }} --include ${{ toJSON(inputs.include) }} --exclude ${{ toJSON(inputs.exclude) }})
         echo $pymatrix
         echo "python-versions=${pymatrix}" >> $GITHUB_OUTPUT
 
