@@ -16,7 +16,7 @@ inputs:
 outputs:
   python-versions:
     description: List of compatible Python versions
-    value: "${{ toJSON(steps.get-python-versions.outputs.python-versions) }}"
+    value: "${{ steps.get-python-versions.outputs.python-versions }}"
   latest-python:
     description: Latest compatible Python version
     value: "${{ steps.get-latest-python.outputs.latest-python }}"
