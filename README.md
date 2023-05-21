@@ -35,10 +35,10 @@ jobs:
   python-config:
     runs-on: ubuntu-latest
     outputs:
-      python-matrix: ${{ steps.get-compatible-python.python-versions }}
-      stable-python: ${{ steps.get-compatible-python.stable-python }}
-      latest-python: ${{ steps.get-compatible-python.latest-python }}
-      oldest-python: ${{ steps.get-compatible-python.oldest-python }}
+      python-matrix: ${{ steps.get-compatible-python.outputs.python-versions }}
+      stable-python: ${{ steps.get-compatible-python.outputs.stable-python }}
+      latest-python: ${{ steps.get-compatible-python.outputs.latest-python }}
+      oldest-python: ${{ steps.get-compatible-python.outputs.oldest-python }}
     steps:
       - uses: actions/setup-python@v4
         with:
