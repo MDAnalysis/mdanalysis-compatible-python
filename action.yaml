@@ -53,7 +53,7 @@ runs:
       working-directory: "${{ github.action_path }}"
       run: |
         chmod a+x ./get_version.py
-        ver=$(./get_version.py --matrix toJSON(${{ steps.get-python-versions.outputs.python-versions }}) --index 0)
+        ver=$(./get_version.py --matrix fromJSON(${{ steps.get-python-versions.outputs.python-versions }}) --index 0)
         echo $ver
         echo "latest-python=${ver}" >> $GITHUB_OUTPUT
 
