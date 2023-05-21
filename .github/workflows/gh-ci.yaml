@@ -32,13 +32,13 @@ jobs:
     - id: exclude-latest
       uses: ./
       with:
-        exclude: ['3.11',]
+        exclude: '["3.11",]'
     
     - id: exclude-2-include-1
       uses: ./
       with:
-        exclude: ['3.11', '3.9']
-        include: ['3.12',]
+        exclude: '["3.11", "3.9"]'
+        include: '["3.12",]'
 
     - id: release-243
       uses: ./
