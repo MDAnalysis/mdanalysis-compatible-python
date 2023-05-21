@@ -34,14 +34,14 @@ jobs:
       id: exclude-latest
       uses: ./
       with:
-        exclude: ["3.11"]
+        exclude: '["3.11"]'
     
     - name: exclude 2 include 1
       id: exclude-2-include-1
       uses: ./
       with:
         exclude: '["3.11", "3.9"]'
-        include: '["3.12",]'
+        include: '["3.12"]'
 
     - name: release 2.4.3
       id: release-243
