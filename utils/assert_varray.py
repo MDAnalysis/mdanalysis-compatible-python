@@ -48,7 +48,9 @@ parser.add_argument(
 def compare_versions(versions: str, target: str) -> None:
     # need to decode the exclude JSON array
     versions_array = json.loads(versions)
+    print(versions_array)
     target_array = json.loads(target)
+    print(target_array)
 
     for i, var in enumerate(versions_array):
         assert target_array[i] == var, f"unmatched array elements: {target_array[i]} {var}"
