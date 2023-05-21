@@ -53,7 +53,7 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        python: ${{ fromJSON(needs.python-config.outputs.python-marix) }}
+        python: ${{ fromJSON(needs.python-config.outputs.python-matrix) }}
     steps:
       - uses: actions/setup-python@v4
         with:

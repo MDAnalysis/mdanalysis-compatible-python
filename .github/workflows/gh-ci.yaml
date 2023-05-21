@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: true
   
 jobs:
-  run:
+  run-tests:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -68,3 +68,30 @@ jobs:
         [[ "${{ steps.release-243.outputs.latest-python }}" == "3.11" ]] || exit 1
         [[ "${{ steps.release-243.outputs.stable-python }}" == "3.10" ]] || exit 1
         [[ "${{ steps.release-243.outputs.oldest-python }}" == "3.8" ]] || exit 1
+
+  python-config:
+    runs-on: ubuntu-latest
+    outputs:
+      python-matrix: ${{ steps.get-compatible-python.python-versions }}
+      stable-python: ${{ steps.get-compatible-python.stable-python }}
+      latest-python: ${{ steps.get-compatible-python.latest-python }}
+      oldest-python: ${{ steps.get-compatible-python.oldest-python }}
+    steps:
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: get compatible python
+        id: get-compatible-python
+        uses: MDAnalysis/mdanalysis-compatible-python@main
+
+  matrix-test:
+    needs: python-config
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        python: ${{ fromJSON(needs.python-config.outputs.python-matrix) }}
+    steps:
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{matrix.python}}
