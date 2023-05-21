@@ -51,7 +51,7 @@ def compare_versions(versions: str, target: str) -> None:
     target_array = json.loads(target)
 
     for i, var in enumerate(versions_array):
-        assert target_array[i] == var, "unmatched array elements"
+        assert target_array[i] == var, f"unmatched array elements: {target_array[i]} {var}"
 
 if __name__ == "__main__":
     args = parser.parse_args()
