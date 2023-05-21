@@ -34,7 +34,7 @@ parser = argparse.ArgumentParser(
     description="Compare two JSON version arrays",
 )
 parser.add_argument(
-    "--in",
+    "--input",
     type=str,
     help="JSON string of versions to inspect",
 )
@@ -55,4 +55,4 @@ def compare_versions(versions: str, target: str) -> None:
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    compare_versions(args.in, args.target)
+    compare_versions(args.input, args.target)
