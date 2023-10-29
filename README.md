@@ -19,7 +19,7 @@ Plese see [action.yaml]() for all details.
 
 The following options can be passed:
 
-1. `release`: an MDAnalysis release number (default is "develop" - the current develop branch head commit).
+1. `release`: an MDAnalysis release number (default is "develop" - the current develop branch head commit). Note: can pass "latest" to have the latest version of MDAnalysis.
 2. `include`: a JSON-like string formatted array of Python versions to specifically include in the output matrix.
 3. `exclude`: a JSON-like string formatted array of Python versions to specifically exclude in the output matrix.
 
