@@ -72,7 +72,7 @@ def _grab_latest_release_version():
     Slightly hacky way to get the package number from the url
     """
     url = 'https://github.com/MDAnalysis/mdanalysis/releases/latest'
-    with urlib.request.urlopen(url) as response:
+    with urllib.request.urlopen(url) as response:
         output_url = response.url
 
     tag_name = output_url.split('/')[-1]
