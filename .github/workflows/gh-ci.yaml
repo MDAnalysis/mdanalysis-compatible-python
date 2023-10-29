@@ -61,7 +61,7 @@ jobs:
         echo "test 1"
         python utils/assert_varray.py --input ${{ toJSON(steps.default-matrix.outputs.python-versions) }} --target '["3.9", "3.10", "3.11", "3.12"]'
         [[ "${{ steps.default-matrix.outputs.latest-python }}" == "3.12" ]] || exit 1
-        [[ "${{ steps.default-matrix.outputs.stable-python }}" == "3.10" ]] || exit 1
+        [[ "${{ steps.default-matrix.outputs.stable-python }}" == "3.11" ]] || exit 1
         [[ "${{ steps.default-matrix.outputs.oldest-python }}" == "3.9" ]] || exit 1
         echo "test 2"
         python utils/assert_varray.py --input ${{ toJSON(steps.exclude-latest.outputs.python-versions) }} --target '["3.9", "3.10", "3.11"]'
