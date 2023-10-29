@@ -67,10 +67,27 @@ parser.add_argument(
 )
 
 
+def _grab_latest_release_version():
+    """
+    Slightly hacky way to get the package number from the url
+    """
+    url = 'https://github.com/MDAnalysis/mdanalysis/releases/latest'
+    with urlib.request.urlopen(url) as response:
+        output_url = response.url
+
+    tag_name = output_url.split('/')[-1]
+    # MDAnalysis relases under tags called package-version or release-version
+    version = tag_name.split('-')[1]
+    return version
+
+
 def get_release_versions(release: str) -> list[str]:
     
     if release is None or release == 'develop':
         TOML_URL = "https://raw.githubusercontent.com/MDAnalysis/mdanalysis/develop/package/pyproject.toml"
+    elif release == 'latest':
+        version = _grab_latest_release_version()
+        TOML_URL = f"https://raw.githubusercontent.com/MDAnalysis/mdanalysis/release-{version}/package/pyproject.toml"
     else:
         TOML_URL = f"https://raw.githubusercontent.com/MDAnalysis/mdanalysis/release-{release}/package/pyproject.toml"
 
