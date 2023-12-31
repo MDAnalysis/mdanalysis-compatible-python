@@ -79,7 +79,7 @@ jobs:
         [[ "${{ steps.release-243.outputs.stable-python }}" == "3.10" ]] || exit 1
         [[ "${{ steps.release-243.outputs.oldest-python }}" == "3.8" ]] || exit 1
         echo "test 5"
-        python utils/assert_varray.py --input ${{ toJSON(steps.mda-latest.outputs.python-versions) }} --target '["3.9", "3.10", "3.11"]'
+        python utils/assert_varray.py --input ${{ toJSON(steps.mda-latest.outputs.python-versions) }} --target '["3.9", "3.10", "3.11", "3.12"]'
 
   python-config:
     runs-on: ubuntu-latest
