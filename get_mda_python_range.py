@@ -108,8 +108,7 @@ def get_release_versions(release: str) -> list[str]:
 def exclude_versions(versions: list[str], excludes: str) -> list[str]:
     # need to decode the exclude JSON array
     exclude_array = json.loads(excludes)
-    return list(set(versions) ^ set(exclude_array))
-
+    return [i for i in set(versions) if i not in set(exclude_array)]
 
 def include_versions(versions: list[str], includes: str) -> list[str]:
     # need to decode the include JSON array
