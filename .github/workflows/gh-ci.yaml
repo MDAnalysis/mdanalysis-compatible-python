@@ -35,14 +35,14 @@ jobs:
       id: exclude-latest
       uses: ./
       with:
-        exclude: '["3.12"]'
+        exclude: '["3.13"]'
     
     - name: exclude 2 include 1
       id: exclude-2-include-1
       uses: ./
       with:
         exclude: '["3.11", "3.9"]'
-        include: '["3.13"]'
+        include: '["3.14"]'
 
     - name: release 2.4.3
       id: release-243
@@ -60,19 +60,19 @@ jobs:
       shell: bash
       run: |
         echo "test 1"
-        python utils/assert_varray.py --input ${{ toJSON(steps.default-matrix.outputs.python-versions) }} --target '["3.10", "3.11", "3.12"]'
-        [[ "${{ steps.default-matrix.outputs.latest-python }}" == "3.12" ]] || exit 1
-        [[ "${{ steps.default-matrix.outputs.stable-python }}" == "3.11" ]] || exit 1
+        python utils/assert_varray.py --input ${{ toJSON(steps.default-matrix.outputs.python-versions) }} --target '["3.10", "3.11", "3.12", "3.13"]'
+        [[ "${{ steps.default-matrix.outputs.latest-python }}" == "3.13" ]] || exit 1
+        [[ "${{ steps.default-matrix.outputs.stable-python }}" == "3.12" ]] || exit 1
         [[ "${{ steps.default-matrix.outputs.oldest-python }}" == "3.10" ]] || exit 1
         echo "test 2"
-        python utils/assert_varray.py --input ${{ toJSON(steps.exclude-latest.outputs.python-versions) }} --target '["3.10", "3.11"]'
-        [[ "${{ steps.exclude-latest.outputs.latest-python }}" == "3.11" ]] || exit 1
-        [[ "${{ steps.exclude-latest.outputs.stable-python }}" == "3.10" ]] || exit 1
+        python utils/assert_varray.py --input ${{ toJSON(steps.exclude-latest.outputs.python-versions) }} --target '["3.10", "3.11", "3.12"]'
+        [[ "${{ steps.exclude-latest.outputs.latest-python }}" == "3.12" ]] || exit 1
+        [[ "${{ steps.exclude-latest.outputs.stable-python }}" == "3.11" ]] || exit 1
         [[ "${{ steps.exclude-latest.outputs.oldest-python }}" == "3.10" ]] || exit 1
         echo "test 3"
-        python utils/assert_varray.py --input ${{ toJSON(steps.exclude-2-include-1.outputs.python-versions) }} --target '["3.10", "3.12", "3.13"]'
-        [[ "${{ steps.exclude-2-include-1.outputs.latest-python }}" == "3.13" ]] || exit 1
-        [[ "${{ steps.exclude-2-include-1.outputs.stable-python }}" == "3.12" ]] || exit 1
+        python utils/assert_varray.py --input ${{ toJSON(steps.exclude-2-include-1.outputs.python-versions) }} --target '["3.10", "3.12", "3.13", "3.14"]'
+        [[ "${{ steps.exclude-2-include-1.outputs.latest-python }}" == "3.14" ]] || exit 1
+        [[ "${{ steps.exclude-2-include-1.outputs.stable-python }}" == "3.13" ]] || exit 1
         [[ "${{ steps.exclude-2-include-1.outputs.oldest-python }}" == "3.10" ]] || exit 1
         echo "test 4"
         python utils/assert_varray.py --input ${{ toJSON(steps.release-243.outputs.python-versions) }} --target '["3.8", "3.9", "3.10", "3.11"]'
