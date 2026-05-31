@@ -21,11 +21,11 @@ jobs:
         os: [ubuntu-latest, macOS-latest, windows-latest]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
 
-    - uses: actions/setup-python@v4
+    - uses: actions/setup-python@v6
       with:
-        python-version: "3.11"
+        python-version: "3.13"
 
     - name: default
       id: default-matrix
@@ -35,14 +35,14 @@ jobs:
       id: exclude-latest
       uses: ./
       with:
-        exclude: '["3.13"]'
+        exclude: '["3.14"]'
     
     - name: exclude 2 include 1
       id: exclude-2-include-1
       uses: ./
       with:
-        exclude: '["3.11", "3.9"]'
-        include: '["3.14"]'
+        exclude: '["3.11", "3.12"]'
+        include: '["3.10"]'
 
     - name: release 2.4.3
       id: release-243
@@ -60,17 +60,17 @@ jobs:
       shell: bash
       run: |
         echo "test 1"
-        python utils/assert_varray.py --input ${{ toJSON(steps.default-matrix.outputs.python-versions) }} --target '["3.10", "3.11", "3.12", "3.13"]'
-        [[ "${{ steps.default-matrix.outputs.latest-python }}" == "3.13" ]] || exit 1
-        [[ "${{ steps.default-matrix.outputs.stable-python }}" == "3.12" ]] || exit 1
-        [[ "${{ steps.default-matrix.outputs.oldest-python }}" == "3.10" ]] || exit 1
+        python utils/assert_varray.py --input ${{ toJSON(steps.default-matrix.outputs.python-versions) }} --target '["3.11", "3.12", "3.13", "3.14"]'
+        [[ "${{ steps.default-matrix.outputs.latest-python }}" == "3.14" ]] || exit 1
+        [[ "${{ steps.default-matrix.outputs.stable-python }}" == "3.13" ]] || exit 1
+        [[ "${{ steps.default-matrix.outputs.oldest-python }}" == "3.11" ]] || exit 1
         echo "test 2"
-        python utils/assert_varray.py --input ${{ toJSON(steps.exclude-latest.outputs.python-versions) }} --target '["3.10", "3.11", "3.12"]'
-        [[ "${{ steps.exclude-latest.outputs.latest-python }}" == "3.12" ]] || exit 1
-        [[ "${{ steps.exclude-latest.outputs.stable-python }}" == "3.11" ]] || exit 1
-        [[ "${{ steps.exclude-latest.outputs.oldest-python }}" == "3.10" ]] || exit 1
+        python utils/assert_varray.py --input ${{ toJSON(steps.exclude-latest.outputs.python-versions) }} --target '["3.11", "3.12", "3.13"]'
+        [[ "${{ steps.exclude-latest.outputs.latest-python }}" == "3.13" ]] || exit 1
+        [[ "${{ steps.exclude-latest.outputs.stable-python }}" == "3.12" ]] || exit 1
+        [[ "${{ steps.exclude-latest.outputs.oldest-python }}" == "3.11" ]] || exit 1
         echo "test 3"
-        python utils/assert_varray.py --input ${{ toJSON(steps.exclude-2-include-1.outputs.python-versions) }} --target '["3.10", "3.12", "3.13", "3.14"]'
+        python utils/assert_varray.py --input ${{ toJSON(steps.exclude-2-include-1.outputs.python-versions) }} --target '["3.10", "3.13", "3.14"]'
         [[ "${{ steps.exclude-2-include-1.outputs.latest-python }}" == "3.14" ]] || exit 1
         [[ "${{ steps.exclude-2-include-1.outputs.stable-python }}" == "3.13" ]] || exit 1
         [[ "${{ steps.exclude-2-include-1.outputs.oldest-python }}" == "3.10" ]] || exit 1
@@ -80,7 +80,7 @@ jobs:
         [[ "${{ steps.release-243.outputs.stable-python }}" == "3.10" ]] || exit 1
         [[ "${{ steps.release-243.outputs.oldest-python }}" == "3.8" ]] || exit 1
         echo "test 5"
-        python utils/assert_varray.py --input ${{ toJSON(steps.mda-latest.outputs.python-versions) }} --target '["3.10", "3.11", "3.12", "3.13"]'
+        python utils/assert_varray.py --input ${{ toJSON(steps.mda-latest.outputs.python-versions) }} --target '["3.11", "3.12", "3.13", "3.14"]'
 
   python-config:
     runs-on: ubuntu-latest
@@ -90,9 +90,9 @@ jobs:
       latest-python: ${{ steps.get-compatible-python.outputs.latest-python }}
       oldest-python: ${{ steps.get-compatible-python.outputs.oldest-python }}
     steps:
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v6
         with:
-          python-version: "3.11"
+          python-version: "3.13"
 
       - name: get compatible python
         id: get-compatible-python
@@ -100,11 +100,11 @@ jobs:
 
   matrix-test:
     needs: python-config
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         python: ${{ fromJSON(needs.python-config.outputs.python-matrix) }}
     steps:
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v6
         with:
           python-version: ${{matrix.python}}
